@@ -20,7 +20,7 @@ A modern, responsive food delivery website built with React, Vite, and Tailwind 
 - Node.js (v14 or later)
 - npm (v6 or later)
 
-### Installation
+## License
+This project is licensed under the MIT License.
 
-1. Clone the repository:
-
+    - Under Development

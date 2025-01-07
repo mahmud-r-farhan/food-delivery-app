@@ -85,16 +85,16 @@ function Sidebar({ isOpen, toggleSidebar, cart = [], updateQuantity, removeItem,
                           onClick={() =>
                             updateQuantity(item.id, (item.quantity || 1) - 1)
                           }
-                          className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+                          className="p-1 hover:bg-gray-200 rounded-full"
                         >
                           <FaMinus />
                         </button>
-                        <span>{item.quantity || 1}</span>
+                        <span>{item.quantity}</span>
                         <button
                           onClick={() =>
                             updateQuantity(item.id, (item.quantity || 1) + 1)
                           }
-                          className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+                          className="p-1 hover:bg-gray-200 rounded-full"
                         >
                           <FaPlus />
                         </button>
@@ -106,31 +106,27 @@ function Sidebar({ isOpen, toggleSidebar, cart = [], updateQuantity, removeItem,
             )}
           </div>
 
-          {/* Footer with Total and Checkout */}
-          {cart.length > 0 && (
-            <div className="border-t dark:border-gray-700 p-6">
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Delivery Fee</span>
-                  <span>${deliveryFee.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between font-bold text-lg pt-4 border-t dark:border-gray-700">
-                  <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
-                </div>
-              </div>
-              <button
-                onClick={handlePlaceOrder}
-                className="w-full bg-indigo-600 text-white py-4 rounded-xl mt-6 hover:bg-indigo-700 transition-colors"
-              >
-                Place Order
-              </button>
+          {/* Order Summary */}
+          <div className="px-6 py-4 border-t dark:border-gray-700">
+            <div className="flex justify-between">
+              <p className="text-lg">Subtotal:</p>
+              <p className="text-lg">${subtotal.toFixed(2)}</p>
             </div>
-          )}
+            <div className="flex justify-between mt-2">
+              <p className="text-lg">Delivery Fee:</p>
+              <p className="text-lg">${deliveryFee.toFixed(2)}</p>
+            </div>
+            <div className="flex justify-between mt-4 font-semibold text-xl">
+              <p>Total:</p>
+              <p>${total.toFixed(2)}</p>
+            </div>
+            <button
+              onClick={handlePlaceOrder}
+              className="w-full bg-indigo-600 text-white py-3 rounded-full mt-6"
+            >
+              Place Order
+            </button>
+          </div>
         </div>
       </div>
     </div>

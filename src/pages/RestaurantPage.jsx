@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaStar, FaHeart, FaShoppingCart } from 'react-icons/fa'; // Import React Icons
+import { FaStar, FaShoppingCart } from 'react-icons/fa'; // Import React Icons
 import FoodCard from '../components/FoodCard';
 import Chat from '../components/Chat';
 import Sidebar from '../components/Sidebar';
@@ -64,8 +64,7 @@ function RestaurantPage() {
   };
 
   const toggleSidebar = () => {
-    console.log('Toggling sidebar:', !isSidebarOpen); // Debug log
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen(prevState => !prevState); // Toggling the sidebar state
   };
 
   const scrollCategories = (direction) => {
@@ -110,18 +109,11 @@ function RestaurantPage() {
         </div>
       </div>
 
-      <div className="sticky top-0 bg-white dark:bg-gray-800 z-10 shadow-md">
+      <div className="sticky top-0 pb-4 pt-2 bg-white dark:bg-gray-800 z-10 shadow-md">
         <div className="relative max-w-7xl mx-auto px-4">
-          <button 
-            onClick={() => scrollCategories('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 p-2 rounded-full shadow-md md:hidden"
-          >
-            ←
-          </button>
-          
           <div 
             ref={categoriesRef}
-            className="flex gap-4 py-4 overflow-x-auto scrollbar-hide snap-x"
+            className="flex gap-4 py-4 overflow-x-auto text-center justify-center scrollbar-hide snap-x md:flex-wrap"
           >
             {categories.map(category => (
               <button
@@ -137,17 +129,10 @@ function RestaurantPage() {
               </button>
             ))}
           </div>
-
-          <button 
-            onClick={() => scrollCategories('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 p-2 rounded-full shadow-md md:hidden"
-          >
-            →
-          </button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mt-4 mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {restaurant.menu.map((item) => (
             <motion.div
@@ -167,7 +152,7 @@ function RestaurantPage() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleSidebar}
-        className="fixed bottom-4 right-4 bg-indigo-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center relative"
+        className="bottom-4 right-4 bg-indigo-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center fixed z-50"
       >
         <FaShoppingCart className="h-6 w-6" />
         {cart.length > 0 && (
