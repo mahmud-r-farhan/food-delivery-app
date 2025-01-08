@@ -17,7 +17,7 @@ function NotFound() {
             rotate: [0, 10, -10, 10, 0],
             scale: [1, 1.1, 1]
           }}
-          transition={{ duration: 1, repeat: Infinity }}
+          transition={{ duration: 2, repeat: Infinity }}
           className="text-9xl font-bold text-indigo-600 mb-8"
         >
           404
@@ -46,7 +46,7 @@ function NotFound() {
             <li>The spelling of the URL</li>
             <li>If you followed a link, it might be outdated</li>
             <li>The page might have been moved or deleted</li>
-            <li>Support<Link to="https://github.com/mahmud-r-farhan" className="text-indigo-600 hover:underline"> Github</Link></li>
+            <li>Support<Link to="https://www.beefood.netlify.app/" className="text-indigo-600 hover:underline">refresh</Link></li>
           </ul>
         </div>
       </div>

@@ -16,27 +16,24 @@ function Sidebar({ isOpen, toggleSidebar, cart = [], updateQuantity, removeItem,
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.classList.add('overflow-y');
     } else {
-      document.body.style.overflow = '';
+      document.body.classList.remove('overflow-hidden');
     }
-    return () => (document.body.style.overflow = '');
   }, [isOpen]);
 
   return (
-    <div>
-      {/* Backdrop */}
+    <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] transition-opacity duration-300"
+          className="fixed z-50 transition-opacity duration-300"
           onClick={toggleSidebar}
           style={{ opacity: isOpen ? 0.5 : 0 }}
         ></div>
       )}
 
-      {/* Sidebar Panel */}
       <div
-        className={`fixed right-0 top-0 h-screen w-[400px] bg-white dark:bg-gray-800 shadow-2xl z-[999] overflow-hidden transform transition-transform duration-300 ${
+        className={`fixed right-0 top-0 h-screen w-[40vh] bg-white dark:bg-gray-800 shadow-2xl z-50  transform transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -106,7 +103,6 @@ function Sidebar({ isOpen, toggleSidebar, cart = [], updateQuantity, removeItem,
             )}
           </div>
 
-    
           <div className="px-6 py-4 border-t dark:border-gray-700">
             <div className="flex justify-between">
               <p className="text-lg">Subtotal:</p>
@@ -129,7 +125,7 @@ function Sidebar({ isOpen, toggleSidebar, cart = [], updateQuantity, removeItem,
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

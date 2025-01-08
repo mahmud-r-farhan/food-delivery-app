@@ -1,155 +1,111 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { motion } from 'framer-motion';
-import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Helmet } from 'react-helmet';
-import { FaMapMarkerAlt, FaPhoneAlt, FaClock } from 'react-icons/fa';
+import { Helmet } from 'react-helmet-async';
 import Chat from '../components/Chat';
-
-// Custom marker icon
-const deliveryIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-});
+import ErrorBoundary from '../components/ErrorBoundary';
 
 function OrderPage() {
   const { id } = useParams();
   const [orderStatus, setOrderStatus] = useState('Preparing');
   const [estimatedTime, setEstimatedTime] = useState(30);
   const [riderLocation, setRiderLocation] = useState([51.505, -0.09]);
+  const [showMap, setShowMap] = useState(false);
+  const [orderError, setOrderError] = useState(null);
 
-  const stages = [
-    { id: 1, name: 'Order Confirmed', icon: '✓', completed: true },
-    { id: 2, name: 'Preparing', icon: '👨‍🍳', completed: orderStatus === 'Preparing' },
-    { id: 3, name: 'On the Way', icon: '🛵', completed: orderStatus === 'Delivering' },
-    { id: 4, name: 'Delivered', icon: '🏠', completed: orderStatus === 'Delivered' },
-  ];
+  useEffect(() => {
+    if (isNaN(parseInt(id))) {
+      setOrderError('Invalid order ID');
+    }
+  }, [id]);
 
-  // Update estimated time
   useEffect(() => {
     const timer = setInterval(() => {
       if (estimatedTime > 0) {
-        setEstimatedTime(prev => prev - 1);
-        if (estimatedTime <= 20 && orderStatus === 'Preparing') {
-          setOrderStatus('Delivering');
-        }
+        setEstimatedTime((prev) => prev - 1);
       } else {
         clearInterval(timer);
         setOrderStatus('Delivered');
       }
-    }, 60000); // Update every minute
-    return () => clearInterval(timer);
-  }, [estimatedTime, orderStatus]);
+    }, 1000);
 
-  // Simulate rider movement
+    return () => clearInterval(timer);
+  }, [estimatedTime]);
+
   useEffect(() => {
-    const moveRider = setInterval(() => {
-      setRiderLocation(prev => [
-        prev[0] + (Math.random() - 0.5) * 0.001,
-        prev[1] + (Math.random() - 0.5) * 0.001,
+    const locationTimer = setInterval(() => {
+      setRiderLocation([
+        riderLocation[0] + (Math.random() - 0.5) * 0.001,
+        riderLocation[1] + (Math.random() - 0.5) * 0.001,
       ]);
-    }, 3000);
-    return () => clearInterval(moveRider);
-  }, []);
+    }, 5000);
+
+    return () => clearInterval(locationTimer);
+  }, [riderLocation]);
+
+  if (orderError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <h1 className="text-2xl font-bold text-red-600">{orderError}</h1>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div>
       <Helmet>
-        <title>Order #{id} | Tracking</title>
+        <title>Order #{id} | Bee Food | Fast Deliver</title>
+        <meta
+          name="description"
+          content={`Track your order #${id} from Bee Food. Your current order status is ${orderStatus}. Estimated delivery time: ${estimatedTime} minutes.`}
+        />
+        <meta name="keywords" content="Order tracking, food delivery, Bee Food" />
+        <link rel="canonical" href={`https://www.beefood.netlify.app/order/${id}`} />
       </Helmet>
-
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Order Status */}
-          <div className="lg:col-span-2 space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
-            >
-              <h1 className="text-2xl font-bold mb-6">Order #{id}</h1>
-
-              {/* Timeline */}
-              <div className="flex justify-between mb-8">
-                {stages.map((stage, index) => (
-                  <div key={stage.id} className="flex flex-col items-center w-1/4">
-                    <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center text-xl ${
-                        stage.completed ? 'bg-green-500 text-white' : 'bg-gray-200 dark:bg-gray-700'
-                      }`}
-                    >
-                      {stage.icon}
-                    </div>
-                    <div className="text-sm mt-2 text-center font-medium">{stage.name}</div>
-                    {index < stages.length - 1 && (
-                      <div
-                        className={`h-1 w-full mt-6 ${
-                          stage.completed ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'
-                        }`}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Map */}
-              <div className="h-[400px] rounded-xl overflow-hidden shadow-lg">
-                <MapContainer center={riderLocation} zoom={15} className="h-full w-full">
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution="&copy; OpenStreetMap contributors"
-                  />
-                  <Marker position={riderLocation} icon={deliveryIcon}>
-                    <Popup>Your delivery partner is here!</Popup>
-                  </Marker>
-                </MapContainer>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Order Details */}
-          <div className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
-            >
-              <h2 className="text-xl font-bold mb-4">Delivery Details</h2>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <FaMapMarkerAlt className="w-5 h-5 text-gray-400" />
-                  <span>123 Delivery Street, City</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <FaPhoneAlt className="w-5 h-5 text-gray-400" />
-                  <span>+1 234 567 890</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <FaClock className="w-5 h-5 text-gray-400" />
-                  <span>Estimated arrival in {estimatedTime} mins</span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
-            >
-              <h2 className="text-xl font-bold mb-4">Need Help?</h2>
-              <button className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors">
-                Contact Support
-              </button>
-            </motion.div>
-          </div>
+      <h1 className="text-3xl font-bold mb-6">Order #{id}</h1>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+        <h2 className="text-2xl font-semibold mb-4">Order Status: {orderStatus}</h2>
+        <p className="mb-4">Estimated Time: {estimatedTime} minutes</p>
+        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mb-4">
+          <div
+            className="bg-indigo-600 h-2.5 rounded-full"
+            style={{ width: `${((30 - estimatedTime) / 30) * 100}%` }}
+            role="progressbar"
+            aria-valuenow={((30 - estimatedTime) / 30) * 100}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
         </div>
+        <button
+          onClick={() => setShowMap(!showMap)}
+          className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300"
+          aria-label={showMap ? "Hide rider's location" : "Show rider's location"}
+        >
+          {showMap ? 'Hide' : 'Show'} Rider's Location
+        </button>
       </div>
-
-      <Chat type="delivery" />
+      {showMap ? (
+        <div className="h-96 z-0 rounded-lg overflow-hidden mb-6">
+          <ErrorBoundary>
+            <MapContainer
+              center={riderLocation}
+              zoom={18}
+              style={{ height: '100%', width: '100%' }}
+            >
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              <Marker position={riderLocation}>
+                <Popup>Your order is here!</Popup>
+              </Marker>
+            </MapContainer>
+          </ErrorBoundary>
+        </div>
+      ) : (
+        <div className="text-gray-500 text-center mb-6">
+          Rider's location map is hidden. Click the button above to view.
+        </div>
+      )}
+      <Chat type="rider" />
     </div>
   );
 }

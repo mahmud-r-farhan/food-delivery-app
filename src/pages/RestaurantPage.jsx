@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaStar, FaShoppingCart, FaArrowLeft } from 'react-icons/fa'; // Import React Icons
+import { FaStar, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
 import FoodCard from '../components/FoodCard';
 import Chat from '../components/Chat';
 import Sidebar from '../components/Sidebar';
@@ -81,11 +81,13 @@ function RestaurantPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Helmet>
-        <title>{restaurant.name} | FoodDelivery</title>
+        <title>{restaurant.name} | Restaurant | Bee Food - Delivery</title>
         <meta
           name="description"
-          content={`Order delicious ${restaurant.cuisine} from ${restaurant.name}. ${restaurant.description}`}
+          content={`Bringing delicious food right to your doorstep. Order delicious ${restaurant.cuisine} from ${restaurant.name}. ${restaurant.description}`}
         />
+        <meta name="keywords" content="Restaurant, food delivery, Bee Food" />
+        <link rel="canonical" href={`https://www.beefood.netlify.app/restaurant/${id}`} />
       </Helmet>
       
       <div className='sticky top-0 z-20 w-10'>
@@ -180,6 +182,7 @@ function RestaurantPage() {
       <AnimatePresence>
         {isSidebarOpen && (
           <Sidebar
+            isOpen={isSidebarOpen}
             cart={cart}
             removeItem={removeFromCart}
             updateQuantity={updateQuantity}

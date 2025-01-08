@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { IoIosSend } from "react-icons/io";
+
 
 function Chat({ type = 'restaurant' }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +69,7 @@ function Chat({ type = 'restaurant' }) {
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed z-50 bottom-20 right-4 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 transition-all duration-300"
+            className="fixed z-40 bottom-20 right-4 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 transition-all duration-300"
           >
             <ChatBubbleLeftIcon className="h-6 w-6" />
             {messages.length > 0 && (
@@ -85,7 +87,7 @@ function Chat({ type = 'restaurant' }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed z-50 bottom-20 right-4 w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl"
+            className="fixed z-[9999] bottom-20 right-4 w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl"
           >
             {/* Chat Header */}
             <div className="flex justify-between items-center p-4 border-b dark:border-gray-700">
@@ -141,13 +143,13 @@ function Chat({ type = 'restaurant' }) {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type a message..."
-                  className="flex-1 rounded-full px-4 py-2 border dark:border-gray-600 focus:outline-none focus:border-indigo-500"
+                  className="flex-1 rounded-full px-4 py-2 border text-gray-800 dark:border-gray-600 focus:outline-none focus:border-indigo-500"
                 />
                 <button
                   type="submit"
                   className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors"
                 >
-                  Send
+                  <IoIosSend className='w-8 h-6'/>
                 </button>
               </div>
             </form>

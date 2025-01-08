@@ -3,13 +3,12 @@ import { MdFavoriteBorder } from "react-icons/md";
 
 function FoodCard({ food, onAddToCart }) {
   const [quantity, setQuantity] = useState(1);
-  const [isHovered, setIsHovered] = useState(false);
+
 
   return (
     <div
       className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-1"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+   
     >
       <div className="relative">
         <img 
@@ -51,7 +50,7 @@ function FoodCard({ food, onAddToCart }) {
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-              ${(food.price * quantity).toFixed(2)}
+              ${food.price}
             </span>
             {food.originalPrice && (
               <span className="text-sm text-gray-400 line-through">
