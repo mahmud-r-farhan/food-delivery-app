@@ -2,20 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { StarIcon, ClockIcon } from '@heroicons/react/24/solid';
+import { restaurants } from '../utils/restaurants';
 
-const restaurants = [
-  { id: 1, name: 'Burger Palace', cuisine: 'Fast Food', rating: 4.5 },
-  { id: 2, name: 'Pasta Paradise', cuisine: 'Italian', rating: 4.2 },
-  { id: 3, name: 'Sushi Sensation', cuisine: 'Japanese', rating: 4.8 },
-  { id: 4, name: 'Taco Town', cuisine: 'Mexican', rating: 4.6 },
-  { id: 5, name: 'Pizza Planet', cuisine: 'Italian', rating: 4.4 },
-  { id: 6, name: 'Wok World', cuisine: 'Chinese', rating: 4.1 },
-  { id: 7, name: 'Kebab Kingdom', cuisine: 'Turkish', rating: 4.7 },
-  { id: 8, name: 'Curry Corner', cuisine: 'Indian', rating: 4.3 },
-  { id: 9, name: 'Bakery Boutique', cuisine: 'Bakery', rating: 4.9 },
-  { id: 10, name: 'Salad Stop', cuisine: 'Healthy', rating: 4.0 },
-  
-];
+
 
 function RestaurantList() {
   const [selectedCuisine, setSelectedCuisine] = useState('');

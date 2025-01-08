@@ -28,7 +28,7 @@ function Sidebar({ isOpen, toggleSidebar, cart = [], updateQuantity, removeItem,
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[998] transition-opacity duration-300"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] transition-opacity duration-300"
           onClick={toggleSidebar}
           style={{ opacity: isOpen ? 0.5 : 0 }}
         ></div>
@@ -106,7 +106,7 @@ function Sidebar({ isOpen, toggleSidebar, cart = [], updateQuantity, removeItem,
             )}
           </div>
 
-          {/* Order Summary */}
+    
           <div className="px-6 py-4 border-t dark:border-gray-700">
             <div className="flex justify-between">
               <p className="text-lg">Subtotal:</p>

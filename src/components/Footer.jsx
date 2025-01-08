@@ -30,7 +30,7 @@ function Footer() {
           </div>
         </div>
         <div className="mt-8 text-center text-sm text-yellow-800 dark:text-yellow-400">
-          © 2023 FoodDelivery. All rights reserved.
+          © 2022 - 2025 Bee Food. All rights reserved.
         </div>
       </div>
     </footer>

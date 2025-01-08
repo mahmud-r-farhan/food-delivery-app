@@ -11,7 +11,7 @@ function OrderTracker({ orderStatus, estimatedTime, riderLocation }) {
   ];
 
   const calculateProgressWidth = () => {
-    const maxTime = 30; // Assuming 30 mins as the max estimated time
+    const maxTime = 30;
     return `${((maxTime - estimatedTime) / maxTime) * 100}%`;
   };
 

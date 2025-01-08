@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaStar, FaShoppingCart } from 'react-icons/fa'; // Import React Icons
+import { FaStar, FaShoppingCart, FaArrowLeft } from 'react-icons/fa'; // Import React Icons
 import FoodCard from '../components/FoodCard';
 import Chat from '../components/Chat';
 import Sidebar from '../components/Sidebar';
@@ -87,7 +87,18 @@ function RestaurantPage() {
           content={`Order delicious ${restaurant.cuisine} from ${restaurant.name}. ${restaurant.description}`}
         />
       </Helmet>
-      <div className="relative h-[300px]">
+      
+      <div className='sticky top-0 z-20 w-10'>
+      <Link to={`/`} className="block">
+        <button className='flex items-center gap-2 p-4 text-center'>
+          
+          <FaArrowLeft className="w-6 h-6" />
+      
+        </button>
+        </Link>
+      </div>
+    
+      <div className="relative h-[300px] z-30">
         <img 
           src={restaurant.image} 
           alt={restaurant.name}
@@ -97,7 +108,7 @@ function RestaurantPage() {
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
           <h1 className="text-4xl font-bold mb-2">{restaurant.name}</h1>
           <div className="flex items-center gap-4">
-            <span className="flex items-center">
+            <span className="flex gap-2 items-center">
               <FaStar className="w-5 h-5 text-yellow-400" />
               {restaurant.rating}
             </span>
@@ -113,15 +124,15 @@ function RestaurantPage() {
         <div className="relative max-w-7xl mx-auto px-4">
           <div 
             ref={categoriesRef}
-            className="flex gap-4 py-4 overflow-x-auto text-center justify-center scrollbar-hide snap-x md:flex-wrap"
+            className="gap-4 py-4 text-center justify-center  md:flex-wrap "
           >
             {categories.map(category => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap transition-colors
+                className={`px-4 py-2 m-1 rounded-full whitespace-nowrap transition-colors
                   ${activeCategory === category 
-                    ? 'bg-indigo-600 text-white'
+                    ? 'bg-indigo-600 text-white '
                     : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200'
                   }`}
               >

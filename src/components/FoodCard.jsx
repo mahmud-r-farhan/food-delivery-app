@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { MdFavoriteBorder } from "react-icons/md";
 
 function FoodCard({ food, onAddToCart }) {
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <motion.div
-      whileHover={{ y: -5 }}
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+    <div
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-1"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -34,8 +33,8 @@ function FoodCard({ food, onAddToCart }) {
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold">{food.name}</h3>
-          <button className="text-gray-400 hover:text-red-500 transition-colors">
-            ❤️
+          <button className="text-gray-400 active:text-red-500 transition-colors">
+            <MdFavoriteBorder />
           </button>
         </div>
 
@@ -87,7 +86,7 @@ function FoodCard({ food, onAddToCart }) {
           </span>
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

@@ -46,7 +46,7 @@ function NotFound() {
             <li>The spelling of the URL</li>
             <li>If you followed a link, it might be outdated</li>
             <li>The page might have been moved or deleted</li>
-            <li>Contact To Developer<Link to="https://github.com/mahmud-r-farhan" className="text-indigo-600 hover:underline"> Github</Link></li>
+            <li>Support<Link to="https://github.com/mahmud-r-farhan" className="text-indigo-600 hover:underline"> Github</Link></li>
           </ul>
         </div>
       </div>
